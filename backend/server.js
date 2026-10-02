@@ -1,13 +1,25 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+
+
+// ==========================================
+// Serve Frontend
+// ==========================================
+
+app.use(express.static(path.join(__dirname, "..")));
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "index.html"));
+});
 
 
 // ==========================================
@@ -77,20 +89,14 @@ const User = mongoose.model("User", userSchema);
 
 
 // ==========================================
-// Home
-// ==========================================
-
-app.get("/", (req, res) => {
-    res.send("Daily Activity Tracker Backend is running!");
-});
-
-
-// ==========================================
 // ACTIVITY CRUD
 // ==========================================
 
 
+// ==========================================
 // GET - View activities
+// ==========================================
+
 app.get("/api/activities", async (req, res) => {
     try {
 
@@ -100,6 +106,8 @@ app.get("/api/activities", async (req, res) => {
 
     } catch (error) {
 
+        console.log(error);
+
         res.status(500).json({
             message: "Failed to load activities"
         });
@@ -108,7 +116,10 @@ app.get("/api/activities", async (req, res) => {
 });
 
 
+// ==========================================
 // POST - Add activity
+// ==========================================
+
 app.post("/api/activities", async (req, res) => {
     try {
 
@@ -126,6 +137,8 @@ app.post("/api/activities", async (req, res) => {
 
     } catch (error) {
 
+        console.log(error);
+
         res.status(500).json({
             message: "Failed to add activity"
         });
@@ -134,7 +147,10 @@ app.post("/api/activities", async (req, res) => {
 });
 
 
+// ==========================================
 // PUT - Update activity
+// ==========================================
+
 app.put("/api/activities/:id", async (req, res) => {
     try {
 
@@ -160,6 +176,8 @@ app.put("/api/activities/:id", async (req, res) => {
 
     } catch (error) {
 
+        console.log(error);
+
         res.status(500).json({
             message: "Failed to update activity"
         });
@@ -168,7 +186,10 @@ app.put("/api/activities/:id", async (req, res) => {
 });
 
 
+// ==========================================
 // DELETE - Delete activity
+// ==========================================
+
 app.delete("/api/activities/:id", async (req, res) => {
     try {
 
@@ -187,6 +208,8 @@ app.delete("/api/activities/:id", async (req, res) => {
         res.json(activity);
 
     } catch (error) {
+
+        console.log(error);
 
         res.status(500).json({
             message: "Failed to delete activity"
@@ -214,6 +237,7 @@ app.post("/api/register", async (req, res) => {
 
 
         // Check all fields
+
         if (
             !name ||
             !email ||
@@ -230,6 +254,7 @@ app.post("/api/register", async (req, res) => {
 
 
         // Check existing username
+
         const existingUser = await User.findOne({
             username: username
         });
@@ -244,6 +269,7 @@ app.post("/api/register", async (req, res) => {
 
 
         // Create user
+
         const user = await User.create({
 
             name: name,
@@ -307,6 +333,7 @@ app.post("/api/login", async (req, res) => {
 
 
         // Check fields
+
         if (!username || !password) {
 
             return res.status(400).json({
@@ -317,13 +344,18 @@ app.post("/api/login", async (req, res) => {
 
 
         // Find user
+
         const user = await User.findOne({
+
             username: username,
+
             password: password
+
         });
 
 
         // Invalid login
+
         if (!user) {
 
             return res.status(401).json({
@@ -334,6 +366,7 @@ app.post("/api/login", async (req, res) => {
 
 
         // Successful login
+
         res.json({
 
             message: "Login successful",
