@@ -3,8 +3,12 @@
 // Frontend + Node.js + Express + MongoDB
 // =====================================================
 
-const API_URL = "http://localhost:5000/api/activities";
-const AUTH_API_URL = "http://localhost:5000/api";
+// IMPORTANT:
+// Use relative API URLs so the app works on Render
+// and also when frontend/backend are served together.
+
+const API_URL = "/api/activities";
+const AUTH_API_URL = "/api";
 
 let editingId = null;
 
@@ -79,6 +83,7 @@ const AuthService = {
 
         // Store only logged-in user information
         // Password is NOT stored in localStorage
+
         localStorage.setItem(
             "currentUser",
             JSON.stringify(data.user)
@@ -100,9 +105,24 @@ const AuthService = {
 
     getCurrentUser() {
 
-        return JSON.parse(
-            localStorage.getItem("currentUser")
-        );
+        const user =
+            localStorage.getItem("currentUser");
+
+        if (!user) {
+            return null;
+        }
+
+        try {
+
+            return JSON.parse(user);
+
+        } catch (error) {
+
+            localStorage.removeItem("currentUser");
+
+            return null;
+
+        }
 
     },
 
@@ -1361,9 +1381,25 @@ async function loginUser() {
 
         // Clear login fields
 
-        document.getElementById("lUser").value = "";
+        const usernameInput =
+            document.getElementById("lUser");
 
-        document.getElementById("lPass").value = "";
+        const passwordInput =
+            document.getElementById("lPass");
+
+
+        if (usernameInput) {
+
+            usernameInput.value = "";
+
+        }
+
+
+        if (passwordInput) {
+
+            passwordInput.value = "";
+
+        }
 
 
         // Go to dashboard
@@ -1489,7 +1525,6 @@ function renderProfile() {
 document.addEventListener(
     "DOMContentLoaded",
     function() {
-
 
         // Activity button
 
