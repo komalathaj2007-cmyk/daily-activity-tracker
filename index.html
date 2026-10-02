@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DailyTrack – Daily Activity Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<nav class="nav">
+  <a href="#home" class="logo"><i class="fa-solid fa-bolt"></i> DailyTrack</a>
+  <button class="burger" id="burger" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+  <ul id="menu">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#features">Features</a></li>
+    <li class="auth-only"><a href="#dashboard">Dashboard</a></li>
+    <li class="auth-only"><a href="#tracker">Activities</a></li>
+    <li class="auth-only"><a href="#progress">Progress</a></li>
+    <li class="auth-only"><a href="#profile">Profile</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#login" class="btn btn-sm" id="navAuth">Login</a></li>
+  </ul>
+</nav>
+
+<main>
+<!-- HOME -->
+<section class="page" id="home">
+  <div class="hero">
+    <div>
+      <span class="chip"><i class="fa-solid fa-cloud"></i> Cloud-ready productivity</span>
+      <h1>Organize Your Day.<br><span class="grad-text">Achieve Your Goals.</span></h1>
+      <p class="lead">DailyTrack helps you plan activities, tick them off and watch your progress grow, all in one calm, colorful workspace.</p>
+      <div class="row">
+        <a href="#tracker" class="btn"><i class="fa-solid fa-play"></i> Start Tracking</a>
+        <a href="#features" class="btn btn-ghost"><i class="fa-solid fa-compass"></i> Explore Features</a>
+      </div>
+    </div>
+    <div class="preview glass">
+      <div class="ring" id="heroRing"><div><b id="heroPct">0%</b><small>Today's progress</small></div></div>
+      <div class="mini-stats">
+        <div class="ms c1"><i class="fa-solid fa-list-check"></i><b id="heroTotal">0</b><small>Total</small></div>
+        <div class="ms c2"><i class="fa-solid fa-circle-check"></i><b id="heroDone">0</b><small>Completed</small></div>
+        <div class="ms c3"><i class="fa-solid fa-hourglass-half"></i><b id="heroPend">0</b><small>Pending</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="page" id="features">
+  <h2 class="title">Everything you need to stay on track</h2>
+  <div class="grid3">
+    <div class="card feat"><i class="fa-solid fa-list-check g1"></i><h3>Activity Tracking</h3><p>Add, edit and complete daily activities in seconds.</p></div>
+    <div class="card feat"><i class="fa-solid fa-chart-line g2"></i><h3>Progress Monitoring</h3><p>See daily, weekly and monthly completion at a glance.</p></div>
+    <div class="card feat"><i class="fa-solid fa-bullseye g3"></i><h3>Daily Goals</h3><p>Turn your plans into goals and finish them one by one.</p></div>
+    <div class="card feat"><i class="fa-solid fa-cloud-arrow-up g4"></i><h3>Cloud Storage</h3><p>Built so your data can sync to a cloud database.</p></div>
+    <div class="card feat"><i class="fa-solid fa-shield-halved g5"></i><h3>Secure Login</h3><p>Personal accounts keep every user's data separate.</p></div>
+    <div class="card feat"><i class="fa-solid fa-lightbulb g6"></i><h3>Productivity Insights</h3><p>Spot your best days and keep your streak alive.</p></div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="page" id="dashboard">
+  <div class="welcome glass-grad">
+    <div><h2>Welcome back, <span id="dName">friend</span>! 👋</h2><p id="dDate"></p></div>
+    <p class="quote" id="dQuote"></p>
+  </div>
+  <div class="grid4">
+    <div class="card stat s1"><i class="fa-solid fa-list-check"></i><b id="dTotal">0</b><small>Total Activities</small></div>
+    <div class="card stat s2"><i class="fa-solid fa-circle-check"></i><b id="dDone">0</b><small>Completed</small></div>
+    <div class="card stat s3"><i class="fa-solid fa-hourglass-half"></i><b id="dPend">0</b><small>Pending</small></div>
+    <div class="card stat s4"><i class="fa-solid fa-percent"></i><b id="dPct">0%</b><small>Completion</small></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Completion</h3><div class="donut-wrap"><div class="donut" id="dDonut"><span id="dDonutPct">0%</span></div></div></div>
+    <div class="card"><h3>Weekly activity</h3><div class="bars" id="dWeek"></div></div>
+  </div>
+  <div class="card"><h3>Recent activities</h3><div id="dRecent"></div></div>
+</section>
+
+<!-- TRACKER -->
+<section class="page" id="tracker">
+  <h2 class="title left">Activity Tracker</h2>
+  <div class="card add">
+    <input id="actText" placeholder="What do you plan to do today?" maxlength="80">
+    <input id="actDate" type="datetime-local">
+    <button class="btn" id="actSave"><i class="fa-solid fa-plus"></i> <span id="actSaveLbl">Add Activity</span></button>
+  </div>
+  <div class="tabs" id="filters">
+    <button class="on" data-f="all">All</button><button data-f="pending">Pending</button><button data-f="done">Completed</button>
+  </div>
+  <div id="actList"></div>
+</section>
+
+<!-- PROGRESS -->
+<section class="page" id="progress">
+  <h2 class="title left">Your Progress</h2>
+  <div class="grid3">
+    <div class="card"><h3>Daily</h3><div class="bar"><i id="pDay"></i></div><b class="big" id="pDayT">0%</b></div>
+    <div class="card"><h3>Weekly</h3><div class="bar"><i id="pWeek"></i></div><b class="big" id="pWeekT">0%</b></div>
+    <div class="card"><h3>Monthly</h3><div class="bar"><i id="pMonth"></i></div><b class="big" id="pMonthT">0%</b></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Completed vs Pending (last 7 days)</h3><div class="bars" id="pBars"></div></div>
+    <div class="card"><h3>Achievements</h3><div class="ach" id="pAch"></div></div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section class="page" id="login">
+  <div class="auth glass">
+    <h2>Welcome back</h2><p class="muted">Log in to continue tracking.</p>
+    <label>Username or email<input id="lUser" autocomplete="username"></label>
+    <label>Password<input id="lPass" type="password" autocomplete="current-password"></label>
+    <div class="between"><label class="chk"><input type="checkbox" id="lRem"> Remember me</label><a href="#" id="forgot">Forgot password?</a></div>
+    <button class="btn full" id="lBtn">Login</button>
+    <p class="muted">New here? <a href="#register">Create an account</a></p>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section class="page" id="register">
+  <div class="auth glass">
+    <h2>Create your account</h2><p class="muted">Start organizing your day in a minute.</p>
+    <label>Name<input id="rName"></label>
+    <label>Email<input id="rEmail" type="email"></label>
+    <label>Mobile number<input id="rMobile" type="tel"></label>
+    <label>Username<input id="rUser"></label>
+    <label>Password<input id="rPass" type="password"></label>
+    <label>Confirm password<input id="rPass2" type="password"></label>
+    <button class="btn full" id="rBtn">Create Account</button>
+    <p class="muted">Already registered? <a href="#login">Login</a></p>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="page" id="profile">
+  <div class="card prof">
+    <div class="avatar" id="pAvatar">U</div>
+    <div class="pinfo">
+      <div id="pView">
+        <h2 id="pName"></h2>
+        <p><i class="fa-solid fa-envelope"></i> <span id="pEmail"></span></p>
+        <p><i class="fa-solid fa-phone"></i> <span id="pMobile"></span></p>
+        <p><i class="fa-solid fa-at"></i> <span id="pUser"></span></p>
+      </div>
+      <div id="pEdit" hidden>
+        <label>Name<input id="eName"></label><label>Email<input id="eEmail"></label><label>Mobile<input id="eMobile"></label>
+      </div>
+      <div class="row"><button class="btn" id="pEditBtn"><i class="fa-solid fa-pen"></i> Edit Profile</button><button class="btn btn-ghost" id="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button></div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="card stat s1"><b id="aTotal">0</b><small>Activities created</small></div>
+    <div class="card stat s2"><b id="aDone">0</b><small>Completed</small></div>
+    <div class="card stat s4"><b id="aSince">–</b><small>Member since</small></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="page" id="about">
+  <div class="card about">
+    <h2>About DailyTrack</h2>
+    <p>DailyTrack is a daily activity tracker that helps people plan their day, complete tasks and see how much they achieve over time. Users add activities, mark them as completed and review progress through charts on the dashboard.</p>
+    <p>It is designed as a <b>Cloud Computing mini project</b>. The frontend keeps all data access in two small service layers, so the browser storage used today can be swapped for a cloud database and cloud authentication without redesigning the interface.</p>
+    <div class="row tags"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip"><i class="fa-solid fa-cloud"></i> Cloud-ready</span></div>
+  </div>
+</section>
+</main>
+
+<footer>© DailyTrack · Cloud Computing Mini Project</footer>
+<div id="toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>
